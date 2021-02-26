@@ -2,8 +2,6 @@ ARG IMAGE_VERSION
 
 FROM debian:${IMAGE_VERSION}
 
-ENV DEBIAN_FRONTEND noninteractive
-
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     gnupg \
@@ -25,12 +23,10 @@ RUN mkdir /tmp/runtime-root \
     && apt-get purge -y && apt-get autoremove -y && apt-get autoclean -y \
     && rm -rf /var/lib/apt/lists/*
 
-ENV XDG_RUNTIME_DIR /tmp/runtime-root
-
 ENTRYPOINT ["/bin/bash", "-c"]
 
 CMD ["qgis"]
 
 #docker builder build --no-cache --build-arg IMAGE_VERSION=stable-slim --file Dockerfile.debian --tag image-name:version .
 #xhost +local:docker
-#docker container run --interactive --tty --volume /tmp/.X11-unix:/tmp/.X11-unix --env DISPLAY=unix$DISPLAY --name container-name image-name:version
+#docker container run --interactive --tty --volume /tmp/.X11-unix:/tmp/.X11-unix --env DISPLAY=unix$DISPLAY --env-file env.list --name container-name image-name:version
