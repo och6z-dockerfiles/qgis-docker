@@ -29,4 +29,5 @@ CMD ["qgis"]
 
 #docker builder build --no-cache --build-arg IMAGE_VERSION=stable-slim --file Dockerfile.debian --tag image-name:version .
 #xhost +local:docker
-#docker container run --interactive --tty --volume /tmp/.X11-unix:/tmp/.X11-unix --env DISPLAY=unix$DISPLAY --env-file env.list --name container-name image-name:version
+#docker volume create --driver local --name volume-name
+#docker container run --detach --mount source=volume-name,target=/home --volume /tmp/.X11-unix:/tmp/.X11-unix --env DISPLAY=unix$DISPLAY --env-file env.list --name container-name image-name:version
